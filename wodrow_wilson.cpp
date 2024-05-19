@@ -66,6 +66,17 @@ class panstwo{
     void printPanstwo(){
          cout<<this->nazwa_panstwa<<endl;
     }
+
+    vector<string> returnMiasta(){
+        vector<string>miasta;
+        for (int i = 0; i < this->miasta.size(); i++)
+        {
+            miasta.push_back(this->miasta[i]->returnMiasta());
+
+        }
+            return miasta;  
+    }
+
 };
 panstwo* currentDir=nullptr;
 class kontynent {
@@ -254,6 +265,23 @@ void drzewko(kontynent* &a, panstwo* &b){
     } 
 }
 
+bool got(vector<string> &tog, string &a){
+
+    for (auto &hog:tog)
+    {
+        if (hog==a)
+        {
+            return false;
+        }
+        
+    }
+    return true;
+}
+
+
+
+
+
 void save(kontynent* &a, panstwo* &b){
 
 
@@ -287,35 +315,40 @@ for(auto  c: a->panstwa) {
 void load(kontynent* &a, panstwo* &b){
 
     ifstream inf("plik.txt");
+    cout << "1\n";
 if (inf.is_open())
 {
-     string temp,temp2,temp3;
+    string temp,temp2,temp3;
     string line;
     vector<string> loaded;
-     stringstream ss(line);
-     int u=1;
-     int miesz;
-     string nazwamias;
-while (getline(inf,line,';'))
+    
+    
+
+for(int countCountries=0;countCountries < 3; countCountries++)
 {
-    stringstream ss2(temp);
-    while(getline(ss2, temp2, ',')) {
-            loaded.push_back(temp2);
+   getline(inf,line);
+        stringstream ss(line);
+        while(getline(ss, temp, ';')){
+
+        stringstream ss2(temp);
+        while(getline(ss2, temp2, ',')) {
+                loaded.push_back(temp2);
+            }
+    }
+
+    for(int i = 0; i < loaded.size(); i+=2){
+        vector<string>temp=a->panstwa[countCountries]->returnMiasta();
+        if (got(temp,loaded[i]))
+        a->panstwa[countCountries]->miasta.push_back(new miasto(loaded[i], stoi(loaded[i+1]),a->panstwa[countCountries]->returnNazwaPanstwa(),a->returnKontynent()));
+    }
+    //clear
+    loaded.clear();
+            }
         }
-}
-for(auto& load : loaded){
-    if (u%2==0)
-    {
-        temp3=temp2;
-        miesz = stoi(temp3);
-        miasto* temp = new miasto(nazwamias, miesz,b->returnNazwaPanstwa(),a->returnKontynent());
-        b->miasta.emplace_back(temp);
     }
-    else{
-nazwamias=temp2;
-    }
-    u++;
-}
+
+
+
 
 
 
@@ -328,9 +361,7 @@ nazwamias=temp2;
     //b->miasta.emplace_back(temp);
 
 
-}
 
-}
 
   
 
