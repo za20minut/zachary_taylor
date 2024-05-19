@@ -1,0 +1,3 @@
+Warszawa,100000;Radom,1;Torun,77;
+Wilno,600000;Kowno,88;
+Riga,450000;Dyneburg,50000;
