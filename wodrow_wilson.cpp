@@ -254,6 +254,7 @@ void odczyt(kontynent* &a, panstwo* &b){
 
 
 void drzewko(kontynent* &a, panstwo* &b){
+    a->printKontynent();
     for(auto  c: a->panstwa) {
         cout<<endl<<c->returnNazwaPanstwa()<<" ";
         for (auto  h: c->miasta)
